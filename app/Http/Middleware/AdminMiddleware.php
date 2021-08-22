@@ -29,6 +29,12 @@ class AdminMiddleware
             }
         }
 
+        if ($request->is('users') || $request->is('users/create') || $request->is('users/*')) {
+            if (!Auth::user()->hasPermissionTo('Manage Users')){
+                abort('401');
+            }
+        }
+
         return $next($request);
     }
 }

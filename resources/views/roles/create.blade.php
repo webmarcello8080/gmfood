@@ -4,9 +4,9 @@
 
 @section('content')
 
-<div class='col-lg-4 col-lg-offset-4'>
+<div class="container mt-3">
 
-    <h1><i class='fa fa-key'></i> Add New Role</h1>
+    <h1><i class="fa fa-key"></i> Add New Role</h1>
     <hr>
 
     {{ Form::open(array('url' => 'roles')) }}
@@ -18,7 +18,7 @@
 
     <h5><b>Assign Permissions</b></h5>
 
-    <div class='form-group'>
+    <div class="form-group">
         @foreach ($permissions as $permission)
             {{ Form::checkbox('permissions[]',  $permission->id, null, ['id' => $permission->name] )  }}
             {{ Form::label($permission->name, ucfirst($permission->name)) }}<br>

@@ -4,11 +4,11 @@
 
 @section('content')
 
-<div class="col-lg-10 col-lg-offset-1">
+<div class="container mt-3">
     <h1><i class="fa fa-key"></i>Available Permissions
 
-    <a href="{{ route('users.index') }}" class="btn btn-default pull-right">Users</a>
-    <a href="{{ route('roles.index') }}" class="btn btn-default pull-right">Roles</a></h1>
+    <a href="{{ route('users.index') }}" class="btn btn-outline-info pull-right mx-1">Users</a>
+    <a href="{{ route('roles.index') }}" class="btn btn-outline-info pull-right mx-1">Roles</a></h1>
     <hr>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
