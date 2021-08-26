@@ -32,4 +32,5 @@ Route::resources([
     'permissions' => PermissionController::class,
     'roles' => RoleController::class,
     'users' => UserController::class,
+    'businesses' => BusinessController::class,
 ]);

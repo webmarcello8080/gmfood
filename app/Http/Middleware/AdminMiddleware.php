@@ -35,6 +35,12 @@ class AdminMiddleware
             }
         }
 
+        if ($request->is('businesses') || $request->is('businesses/create') || $request->is('businesses/*')) {
+            if (!Auth::user()->hasPermissionTo('Manage Businesses')){
+                abort('401');
+            }
+        }
+
         return $next($request);
     }
 }

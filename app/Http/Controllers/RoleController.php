@@ -34,7 +34,7 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $permissions = Permission::all();//Get all permissions
+        $permissions = Permission::orderBy('name')->get();//Get all permissions
 
         return view('roles.create', ['permissions'=>$permissions]);
     }
@@ -60,7 +60,7 @@ class RoleController extends Controller {
         $permissions = $request['permissions'];
 
         $role->save();
-    //Looping thru selected permissions
+        //Looping thru selected permissions
         foreach ($permissions as $permission) {
             $p = Permission::where('id', '=', $permission)->firstOrFail(); 
          //Fetch the newly created role and assign permission
@@ -91,7 +91,7 @@ class RoleController extends Controller {
      */
     public function edit($id) {
         $role = Role::findOrFail($id);
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('name')->get();
 
         return view('roles.edit', compact('role', 'permissions'));
     }
@@ -106,7 +106,7 @@ class RoleController extends Controller {
     public function update(Request $request, $id) {
 
         $role = Role::findOrFail($id);//Get role with the given id
-    //Validate name and permission fields
+        //Validate name and permission fields
         $this->validate($request, [
             'name'=>'required|max:10|unique:roles,name,'.$id,
             'permissions' =>'required',
@@ -146,6 +146,5 @@ class RoleController extends Controller {
         return redirect()->route('roles.index')
             ->with('flash_message',
              'Role deleted!');
-
     }
 }
