@@ -24,7 +24,9 @@
 </head>
 <body>
     <div class="main">
-        @include('layouts.menu')
+        @if(Auth::check())
+            @include('layouts.menu')
+        @endif
 
         @if(Session::has('flash_message'))
             <div class="container mt-3">      

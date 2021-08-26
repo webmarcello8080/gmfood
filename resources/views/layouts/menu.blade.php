@@ -13,7 +13,6 @@
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a class="nav-item nav-link" href="{{ route('login') }}">Login</a></li>
-                    <li><a class="nav-item nav-link" href="{{ route('register') }}">Register</a></li>
                 @else
                     <li class="nav-item dropdown">
                         <a  href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

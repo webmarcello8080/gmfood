@@ -18,6 +18,14 @@ use App\Http\Controllers\UserController;
 
 Auth::routes();
 
+// disable register page
+Route::get('/register', function() {
+    return redirect('/login');
+});
+Route::post('/register', function() {
+    return redirect('/login');
+});
+
 Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 Route::resources([
