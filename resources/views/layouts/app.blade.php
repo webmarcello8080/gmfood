@@ -28,20 +28,9 @@
             @include('layouts.menu')
         @endif
 
-        @if(Session::has('flash_message'))
-            <div class="container mt-3">      
-                <div class="alert alert-success"><em> {!! session('flash_message') !!}</em>
-                </div>
-            </div>
-        @endif 
+        @include ('layouts.flash-message')
 
-        <div class="container mt-3">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">              
-                    @include ('errors.list') {{-- Including error file --}}
-                </div>
-            </div>
-        </div>
+        @include ('errors.list') {{-- Including error file --}}
 
         @yield('content')
 

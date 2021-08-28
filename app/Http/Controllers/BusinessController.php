@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Business;
 
 class BusinessController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth', 'isAdmin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,10 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        $business = new Business();
+        $businesses = $business->orderBy('name')->get();
+
+        return view('businesses.index')->with('businesses', $businesses);
     }
 
     /**
@@ -23,7 +31,7 @@ class BusinessController extends Controller
      */
     public function create()
     {
-        //
+        return view('businesses.create');
     }
 
     /**
@@ -34,7 +42,32 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255|unique:businesses',
+            'address' => 'required|max:255',
+            'address2' => 'nullable|max:255',
+            'postcode' => 'required|max:255',
+            'city' => 'required|max:255',
+            'phone_number' => 'nullable|numeric',
+            'email' => 'nullable|email',
+            'website' => 'nullable|max:255'
+        ]);
+
+        $business = new Business();
+        $business->name = $request['name'];
+        $business->address = $request['address'];
+        $business->address2 = $request['address2'];
+        $business->postcode = $request['postcode'];
+        $business->city = $request['city'];
+        $business->phone_number = $request['phone_number'];
+        $business->email = $request['email'];
+        $business->website = $request['website'];
+
+        $business->save();
+
+        return redirect()->route('businesses.index')
+            ->with('flash_message',
+            'Business '. $business->name .' added!');
     }
 
     /**
@@ -45,7 +78,7 @@ class BusinessController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect('businesses');
     }
 
     /**
@@ -56,7 +89,9 @@ class BusinessController extends Controller
      */
     public function edit($id)
     {
-        //
+        $business = Business::findOrFail($id);
+
+        return view('businesses.edit', compact('business'));
     }
 
     /**
@@ -68,7 +103,25 @@ class BusinessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $business = new Business();
+        $business = $business->findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|max:255|unique:businesses',
+            'address' => 'required|max:255',
+            'address2' => 'nullable|max:255',
+            'postcode' => 'required|max:255',
+            'city' => 'required|max:255',
+            'phone_number' => 'nullable|numeric',
+            'email' => 'nullable|email',
+            'website' => 'nullable|max:255'
+        ]);
+        $input = $request->all();
+        $business->fill($input)->save();
+
+        return redirect()->route('businesses.index')
+            ->with('flash_message',
+             'Business '. $business->name.' updated!');
     }
 
     /**
@@ -79,6 +132,19 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $business = Business::findOrFail($id);
+
+        //Make it impossible to delete this specific permission    
+        if (1) {
+            return redirect()->route('businesses.index')
+            ->with('flash_message',
+            'This operation is not allowed!');
+        }
+
+        $business->delete();
+
+        return redirect()->route('businesses.index')
+            ->with('flash_message',
+            'Business deleted!');
     }
 }

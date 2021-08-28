@@ -17,13 +17,25 @@ class CreateBusinessesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
-            $table->string('address2');
+            $table->string('address2')->nullable();
             $table->string('postcode');
             $table->string('city');
-            $table->string('phone_number');
-            $table->string('website');
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
             $table->timestamps();
         });
+
+        // Insert some stuff
+        DB::table('businesses')->insert(
+            array(
+                'name' => 'GMFood',
+                'address' => '43 Royal Crescent',
+                'postcode' => 'BS8 4JS',
+                'city' => 'Bristol',
+                'website' => 'http://gmfood.webmarcello.co.uk/',
+            )
+        );
     }
 
     /**

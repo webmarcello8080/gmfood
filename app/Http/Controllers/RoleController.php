@@ -141,6 +141,12 @@ class RoleController extends Controller {
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
+        if($role->name == 'SuperAdmin'){
+            return redirect()->route('roles.index')
+                ->with('flash_message',
+                'Cannot delete this Role!');
+        }
+
         $role->delete();
 
         return redirect()->route('roles.index')

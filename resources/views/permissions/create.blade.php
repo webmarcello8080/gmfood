@@ -7,14 +7,13 @@
 <div class='container mt-3'>
 
     <h1><i class='fa fa-key'></i> Add New Permission</h1>
-    <br>
 
     {{ Form::open(array('url' => 'permissions')) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Name') }}
         {{ Form::text('name', '', array('class' => 'form-control')) }}
-    </div><br>
+    </div>
     @if(!$roles->isEmpty()) 
         <h4>Assign Permission to Roles</h4>
 
@@ -24,7 +23,7 @@
 
         @endforeach
     @endif
-    <br>
+
     {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}

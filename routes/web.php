@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BusinessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,5 +33,5 @@ Route::resources([
     'permissions' => PermissionController::class,
     'roles' => RoleController::class,
     'users' => UserController::class,
-    'businesses' => BusinessController::class,
+    'businesses' => BusinessController::class
 ]);

@@ -28,5 +28,5 @@ class Business extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'address', 'address2', 'postcode', 'city', 'phone_number', 'website'];
+    protected $fillable = ['name', 'address', 'address2', 'postcode', 'city', 'phone_number', 'website', 'email'];
 }
