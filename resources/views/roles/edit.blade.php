@@ -22,7 +22,6 @@
         {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
 
     @endforeach
-    <br>
     {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}    

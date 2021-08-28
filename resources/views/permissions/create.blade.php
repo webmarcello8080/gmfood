@@ -20,7 +20,6 @@
         @foreach ($roles as $role) 
             {{ Form::checkbox('roles[]',  $role->id, null, ['id' => $role->name ] ) }}
             {{ Form::label($role->name, ucfirst($role->name)) }}<br>
-
         @endforeach
     @endif
 
