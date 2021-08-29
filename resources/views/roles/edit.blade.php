@@ -17,11 +17,10 @@
 
     <h5><b>Assign Permissions</b></h5>
     @foreach ($permissions as $permission)
-
         {{Form::checkbox('permissions[]',  $permission->id, $role->permissions, ['id' => $permission->name] ) }}
         {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
     @endforeach
+    
     {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}    

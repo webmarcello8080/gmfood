@@ -110,10 +110,9 @@ class UserController extends Controller {
     //Validate name, email and password fields    
         $this->validate($request, [
             'name'=>'required|max:120',
-            'email'=>'required|email|unique:users,email,'.$id,
-            'password'=>'required|min:6|confirmed'
+            'email'=>'required|email|unique:users,email,'.$id
         ]);
-        $input = $request->only(['name', 'email', 'password']); //Retreive the name, email and password fields
+        $input = $request->only(['name', 'email']); //Retreive the name, email and password fields
         $roles = $request['roles']; //Retreive all roles
         $user->fill($input)->save();
 
@@ -136,11 +135,29 @@ class UserController extends Controller {
     */
     public function destroy($id) {
     //Find a user with a given id and delete
-        $user = User::findOrFail($id); 
-        $user->delete();
+        $user = User::findOrFail($id);
+        $user->status = 0;
+        $user->save();
 
         return redirect()->route('users.index')
             ->with('flash_message',
-             'User successfully deleted.');
+             'User ' . $user->name .  ' has been blocked.');
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function active($id) {
+    //Find a user with a given id and delete
+        $user = User::findOrFail($id);
+        $user->status = 1;
+        $user->save();
+
+        return redirect()->route('users.index')
+            ->with('flash_message',
+             'User ' . $user->name .  ' has been activated.');
     }
 }

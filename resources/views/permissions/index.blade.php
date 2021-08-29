@@ -23,12 +23,13 @@
                 <tr>
                     <td>{{ $permission->name }}</td> 
                     <td>
-                    <a href="{{ URL::to('permissions/'.$permission->id.'/edit') }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
+                        <div class="d-flex justify-content-around">
+                            <a href="{{ URL::to('permissions/'.$permission->id.'/edit') }}" class="btn btn-info">Edit</a>
 
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['permissions.destroy', $permission->id] ]) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-
+                            {!! Form::open(['method' => 'DELETE', 'route' => ['permissions.destroy', $permission->id] ]) !!}
+                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            {!! Form::close() !!}
+                        </div>
                     </td>
                 </tr>
                 @endforeach

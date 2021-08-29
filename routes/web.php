@@ -35,3 +35,5 @@ Route::resources([
     'users' => UserController::class,
     'businesses' => BusinessController::class
 ]);
+
+Route::get('users/active/{id}', [ UserController::class, 'active'])->name('users.active');

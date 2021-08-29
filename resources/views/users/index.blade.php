@@ -31,12 +31,16 @@
                     <td>{{ $user->created_at->format('F d, Y h:ia') }}</td>
                     <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
                     <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
-
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-
+                        <div class="d-flex justify-content-around">
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info">Edit</a>
+                            @if ($user->status == 1)
+                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
+                                {!! Form::submit('Block', ['class' => 'btn btn-danger']) !!}
+                                {!! Form::close() !!}
+                            @else
+                                <a href="{{ route('users.active', $user->id) }}" class="btn btn-info">Activate</a>
+                            @endif
+                        </div>
                     </td>
                 </tr>
                 @endforeach

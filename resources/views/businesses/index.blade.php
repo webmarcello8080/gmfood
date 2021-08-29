@@ -27,12 +27,13 @@
                   <td>{{ $business->city }}</td> 
                   <td>{{ $business->email }}</td> 
                   <td>
-                  <a href="{{ URL::to('businesses/'.$business->id.'/edit') }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
+                     <div class="d-flex justify-content-around">
+                        <a href="{{ URL::to('businesses/'.$business->id.'/edit') }}" class="btn btn-info">Edit</a>
 
-                  {!! Form::open(['method' => 'DELETE', 'route' => ['businesses.destroy', $business->id] ]) !!}
-                  {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                  {!! Form::close() !!}
-
+                        {!! Form::open(['method' => 'DELETE', 'route' => ['businesses.destroy', $business->id] ]) !!}
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                     </div>
                   </td>
                </tr>
                @endforeach

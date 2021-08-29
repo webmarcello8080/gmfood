@@ -15,7 +15,7 @@ class ClearanceMiddleware {
      */
     public function handle($request, Closure $next) {        
 
-        var_dump(Auth::user()->hasPermissionTo('Manage Permissions'));
+        // var_dump(Auth::user()->hasPermissionTo('Manage Permissions'));
 
         return $next($request);
     }
