@@ -49,11 +49,12 @@ class PermissionController extends Controller {
     public function store(Request $request) {
         $this->validate($request, [
             'name'=>'required|max:40',
+            'description'=>'nullable'
         ]);
 
-        $name = $request['name'];
         $permission = new Permission();
-        $permission->name = $name;
+        $permission->name = $request['name'];
+        $permission->description = $request['description'];
 
         $roles = $request['roles'];
 

@@ -14,6 +14,12 @@
         {{ Form::label('name', 'Name') }}
         {{ Form::text('name', '', array('class' => 'form-control')) }}
     </div>
+
+    <div class="form-group">
+        {{ Form::label('description', 'Description') }}
+        {{ Form::textarea('description', '', ['class'=>'form-control', 'rows' => 2, 'cols' => 40]) }}
+    </div>
+
     @if(!$roles->isEmpty()) 
         <h4>Assign Permission to Roles</h4>
 

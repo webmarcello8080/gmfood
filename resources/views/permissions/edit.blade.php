@@ -11,8 +11,14 @@
 
     <div class="form-group">
         {{ Form::label('name', 'Permission Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+        {{ Form::text('name', $permission->name, array('class' => 'form-control')) }}
     </div>
+
+    <div class="form-group">
+        {{ Form::label('description', 'Description') }}
+        {{ Form::textarea('description', $permission->description, ['class'=>'form-control', 'rows' => 2, 'cols' => 40]) }}
+    </div>
+
     {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}

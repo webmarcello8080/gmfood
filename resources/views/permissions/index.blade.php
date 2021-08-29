@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Permissions</th>
+                    <th>Description</th>
                     <th>Operation</th>
                 </tr>
             </thead>
@@ -22,6 +23,7 @@
                 @foreach ($permissions as $permission)
                 <tr>
                     <td>{{ $permission->name }}</td> 
+                    <td>{{ $permission->description }}</td> 
                     <td>
                         <div class="d-flex justify-content-around">
                             <a href="{{ URL::to('permissions/'.$permission->id.'/edit') }}" class="btn btn-info">Edit</a>
