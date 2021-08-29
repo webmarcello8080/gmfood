@@ -21,6 +21,11 @@
         {{ Form::email('email', null, array('class' => 'form-control')) }}
     </div>
 
+    <div class="form-group">
+        {{ Form::label('business_id', 'Business') }}
+        {{ Form::select('business_id', $businesses, $user->business ? $user->business->id : '', array('class' => 'form-control', 'placeholder' => 'Please Select...')) }}
+    </div>
+
     <h5><b>Give Role</b></h5>
 
     <div class="form-group">
@@ -30,7 +35,7 @@
         @endforeach
     </div>
 
-    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 

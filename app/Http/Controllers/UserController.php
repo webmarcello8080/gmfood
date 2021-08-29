@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\Business;
 use Auth;
 
 //Importing laravel-permission models
@@ -39,7 +40,9 @@ class UserController extends Controller {
     public function create() {
     //Get all roles and pass it to the view
         $roles = Role::get();
-        return view('users.create', ['roles'=>$roles]);
+        $businesses = Business::pluck('name', 'id');
+
+        return view('users.create', ['roles' => $roles, 'businesses' => $businesses]);
     }
 
     /**
@@ -53,13 +56,14 @@ class UserController extends Controller {
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users',
-            'password'=>'required|min:6|confirmed'
+            'password'=>'required|min:6|confirmed',
+            'business_id'=>'integer'
         ]);
 
-        $user = User::create($request->only('email', 'name', 'password')); //Retrieving only the email and password data
+        $user = User::create($request->only('email', 'name', 'password', 'business_id')); //Retrieving only the email and password data
 
         $roles = $request['roles']; //Retrieving the roles field
-    //Checking if a role was selected
+        //Checking if a role was selected
         if (isset($roles)) {
 
             foreach ($roles as $role) {
@@ -92,9 +96,9 @@ class UserController extends Controller {
     public function edit($id) {
         $user = User::findOrFail($id); //Get user with specified id
         $roles = Role::get(); //Get all roles
+        $businesses = Business::pluck('name', 'id');
 
-        return view('users.edit', compact('user', 'roles')); //pass user and roles data to view
-
+        return view('users.edit', compact('user', 'roles', 'businesses')); //pass user and roles data to view
     }
 
     /**
@@ -110,9 +114,10 @@ class UserController extends Controller {
     //Validate name, email and password fields    
         $this->validate($request, [
             'name'=>'required|max:120',
-            'email'=>'required|email|unique:users,email,'.$id
+            'email'=>'required|email|unique:users,email,'.$id,
+            'business_id'=>'integer'
         ]);
-        $input = $request->only(['name', 'email']); //Retreive the name, email and password fields
+        $input = $request->only(['name', 'email', 'business_id']); //Retreive the name, email and password fields
         $roles = $request['roles']; //Retreive all roles
         $user->fill($input)->save();
 

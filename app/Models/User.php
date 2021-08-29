@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
+        'business_id'
     ];
 
     /**
@@ -45,5 +46,12 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($password){   
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    /**
+     * Get the business that owns this user.
+     */
+    public function business(){
+        return $this->belongsTo(Business::class);
     }
 }

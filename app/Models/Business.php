@@ -29,4 +29,11 @@ class Business extends Model
      * @var array
      */
     protected $fillable = ['name', 'address', 'address2', 'postcode', 'city', 'phone_number', 'website', 'email'];
+
+    /**
+     * Get the user is connected with a business.
+     */
+    public function users(){
+        return $this->hasMany(User::class);
+    }
 }
