@@ -21,17 +21,16 @@
         {{ Form::email('email', '', array('class' => 'form-control')) }}
     </div>
 
-    <div class="form-group">
-        {{ Form::label('business_id', 'Business') }}
-        {{ Form::select('business_id', $businesses,  null, array('class' => 'form-control', 'placeholder' => 'Please Select...')) }}
-    </div>
+    @role('SuperAdmin')
+        <div class="form-group">
+            {{ Form::label('business_id', 'Business') }}
+            {{ Form::select('business_id', $businesses,  null, array('class' => 'form-control', 'placeholder' => 'Please Select...')) }}
+        </div>
+    @else
+        {{ Form::hidden('business_id', Auth::user()->business->id) }}
+    @endrole
 
-    <div class='form-group'>
-        @foreach ($roles as $role)
-            {{ Form::checkbox('roles[]',  $role->id, null, ['id' => $role->name] ) }}
-            {{ Form::label($role->name, ucfirst($role->name)) }}<br>
-        @endforeach
-    </div>
+    @include ('roles.role-checkboxes')
 
     <div class="form-row">
         <div class="form-group col-md-6">

@@ -21,19 +21,18 @@
         {{ Form::email('email', null, array('class' => 'form-control')) }}
     </div>
 
-    <div class="form-group">
-        {{ Form::label('business_id', 'Business') }}
-        {{ Form::select('business_id', $businesses, $user->business ? $user->business->id : '', array('class' => 'form-control', 'placeholder' => 'Please Select...')) }}
-    </div>
+    @role('SuperAdmin')
+        <div class="form-group">
+            {{ Form::label('business_id', 'Business') }}
+            {{ Form::select('business_id', $businesses, $user->business ? $user->business->id : '', array('class' => 'form-control', 'placeholder' => 'Please Select...')) }}
+        </div>
+    @else
+        {{ Form::hidden('business_id', Auth::user()->business->id) }}
+    @endrole
 
     <h5><b>Give Role</b></h5>
 
-    <div class="form-group">
-        @foreach ($roles as $role)
-            {{ Form::checkbox('roles[]',  $role->id, $user->roles ) }}
-            {{ Form::label($role->name, ucfirst($role->name)) }}<br>
-        @endforeach
-    </div>
+    @include ('roles.role-checkboxes')
 
     {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 
