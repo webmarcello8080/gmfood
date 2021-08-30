@@ -135,7 +135,7 @@ class BusinessController extends Controller
         $business = Business::findOrFail($id);
 
         //Make it impossible to delete this specific permission    
-        if (1) {
+        if (true) {
             return redirect()->route('businesses.index')
             ->with('flash_message',
             'This operation is not allowed!');

@@ -27,8 +27,18 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function index() {
-    //Get all users and pass it to the view
-        $users = User::all(); 
+        //Get all users and pass it to the view
+        if(Auth::user()->hasRole('SuperAdmin')){
+            $users = User::get();
+        } else {
+            $current_business = Auth::user()->business;
+            if(Auth::user()->hasRole('Admin')){
+                $users = User::where('business_id', $current_business->id)->role(['Admin', 'Supervisor', 'Employee'])->get();
+            } elseif (Auth::user()->hasRole('Supervisor')) {
+                $users = User::where('business_id', $current_business->id)->role(['Supervisor', 'Employee'])->get();
+            }
+        }
+
         return view('users.index')->with('users', $users);
     }
 
@@ -38,7 +48,7 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function create() {
-    //Get all roles and pass it to the view
+        //Get all roles and pass it to the view
         $roles = Role::get();
         $businesses = Business::pluck('name', 'id');
 
@@ -52,12 +62,12 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function store(Request $request) {
-    //Validate name, email and password fields
+        //Validate name, email and password fields
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users',
             'password'=>'required|min:6|confirmed',
-            'business_id'=>'integer'
+            'business_id'=>'required|integer'
         ]);
 
         $user = User::create($request->only('email', 'name', 'password', 'business_id')); //Retrieving only the email and password data
@@ -71,7 +81,7 @@ class UserController extends Controller {
             $user->assignRole($role_r); //Assigning role to user
             }
         }        
-    //Redirect to the users.index view and display message
+        //Redirect to the users.index view and display message
         return redirect()->route('users.index')
             ->with('flash_message',
              'User successfully added.');
@@ -98,6 +108,13 @@ class UserController extends Controller {
         $roles = Role::get(); //Get all roles
         $businesses = Business::pluck('name', 'id');
 
+        if(!Auth::user()->hasRole('SuperAdmin')){
+            $current_business = Auth::user()->business;
+            if($user->business_id != $current_business->id){
+                abort('401');
+            }
+        }
+
         return view('users.edit', compact('user', 'roles', 'businesses')); //pass user and roles data to view
     }
 
@@ -111,13 +128,13 @@ class UserController extends Controller {
     public function update(Request $request, $id) {
         $user = User::findOrFail($id); //Get role specified by id
 
-    //Validate name, email and password fields    
+        //Validate name, email    
         $this->validate($request, [
             'name'=>'required|max:120',
             'email'=>'required|email|unique:users,email,'.$id,
             'business_id'=>'integer'
         ]);
-        $input = $request->only(['name', 'email', 'business_id']); //Retreive the name, email and password fields
+        $input = $request->only(['name', 'email', 'business_id']); //Retreive the name, email
         $roles = $request['roles']; //Retreive all roles
         $user->fill($input)->save();
 
@@ -127,6 +144,7 @@ class UserController extends Controller {
         else {
             $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
         }
+        
         return redirect()->route('users.index')
             ->with('flash_message',
              'User successfully edited.');
@@ -156,7 +174,7 @@ class UserController extends Controller {
     * @return \Illuminate\Http\Response
     */
     public function active($id) {
-    //Find a user with a given id and delete
+        //Find a user with a given id and delete
         $user = User::findOrFail($id);
         $user->status = 1;
         $user->save();
