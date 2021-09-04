@@ -5,6 +5,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,8 @@ Route::resources([
     'permissions' => PermissionController::class,
     'roles' => RoleController::class,
     'users' => UserController::class,
-    'businesses' => BusinessController::class
+    'businesses' => BusinessController::class,
+    'menus' => MenuController::class
 ]);
 
 Route::get('users/active/{id}', [ UserController::class, 'active'])->name('users.active');

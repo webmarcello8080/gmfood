@@ -41,6 +41,12 @@ class AdminMiddleware
             }
         }
 
+        if ($request->is('menus') || $request->is('menus/create') || $request->is('menus/*')) {
+            if (!Auth::user()->hasPermissionTo('Create New Entry')){
+                abort('401');
+            }
+        }
+
         return $next($request);
     }
 }

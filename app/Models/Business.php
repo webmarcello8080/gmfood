@@ -36,4 +36,11 @@ class Business extends Model
     public function users(){
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Get the menu is connected with a business.
+     */
+    public function menus(){
+        return $this->hasMany(Menu::class);
+    }
 }

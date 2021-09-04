@@ -7,6 +7,19 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mr-auto">
                 <li><a class="nav-item nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menus</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarMenu">
+                        @can('Create New Entry')
+                            <a class="dropdown-item" href="{{ route('menus.create') }}" >
+                                Add New Menu
+                            </a>
+                            <a class="dropdown-item" href="{{ route('menus.index') }}" >
+                                Menu List
+                            </a>
+                        @endcan  
+                    </div>
+                </li>
             </ul>
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
@@ -15,11 +28,10 @@
                     <li><a class="nav-item nav-link" href="{{ route('login') }}">Login</a></li>
                 @else
                     <li class="nav-item dropdown">
-                        <a  href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
+                        <div class="dropdown-menu" aria-labelledby="navbarUser">
                                 @can('Manage Roles')
                                     <a class="dropdown-item" href="{{ route('roles.index') }}" >
                                         Manage Roles
@@ -49,8 +61,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                 </form>
-                            </li>
-                        </ul>
+                        </div>
                     </li>
                 @endif
             </ul>

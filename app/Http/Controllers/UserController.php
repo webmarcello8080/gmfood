@@ -164,7 +164,7 @@ class UserController extends Controller {
 
         return redirect()->route('users.index')
             ->with('flash_message',
-             'User ' . $user->name .  ' has been blocked.');
+             'User ' . $user->name .  ' has been deleted.');
     }
 
     /**
