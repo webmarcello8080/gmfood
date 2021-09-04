@@ -6,8 +6,7 @@
 @section('content')
 
 <div class="container mt-3">
-    <h1><i class="fa fa-users"></i> User Administration <a href="{{ route('roles.index') }}" class="btn btn-outline-info pull-right mx-1">Roles</a>
-    <a href="{{ route('permissions.index') }}" class="btn btn-outline-info pull-right mx-1">Permissions</a></h1>
+    <h1><i class="fa fa-users"></i> User Administration</h1>
     <hr>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -34,9 +33,7 @@
                         <div class="d-flex justify-content-around">
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info">Edit</a>
                             @if ($user->status == 1)
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                                {!! Form::submit('Block', ['class' => 'btn btn-danger']) !!}
-                                {!! Form::close() !!}
+                                <a href="{{ route('users.active', $user->id) }}" class="btn btn-danger">Block</a>
                             @else
                                 <a href="{{ route('users.active', $user->id) }}" class="btn btn-info">Activate</a>
                             @endif

@@ -5,9 +5,7 @@
 @section('content')
 
 <div class="container mt-3">
-   <h1><i class="fa fa-briefcase"></i>Businesses
-
-   <a href="{{ route('users.index') }}" class="btn btn-outline-info pull-right mx-1">Users</a></h1>
+   <h1><i class="fa fa-briefcase"></i>Businesses</h1>
    <hr>
 
    <div class="table-responsive">

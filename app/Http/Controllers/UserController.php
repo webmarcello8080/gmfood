@@ -77,8 +77,8 @@ class UserController extends Controller {
         if (isset($roles)) {
 
             foreach ($roles as $role) {
-            $role_r = Role::where('id', '=', $role)->firstOrFail();            
-            $user->assignRole($role_r); //Assigning role to user
+                $role_r = Role::where('id', '=', $role)->firstOrFail();            
+                $user->assignRole($role_r); //Assigning role to user
             }
         }        
         //Redirect to the users.index view and display message
@@ -108,6 +108,7 @@ class UserController extends Controller {
         $roles = Role::get(); //Get all roles
         $businesses = Business::pluck('name', 'id');
 
+        // check if this user belong to a different business
         if(!Auth::user()->hasRole('SuperAdmin')){
             $current_business = Auth::user()->business;
             if($user->business_id != $current_business->id){
@@ -159,8 +160,7 @@ class UserController extends Controller {
     public function destroy($id) {
     //Find a user with a given id and delete
         $user = User::findOrFail($id);
-        $user->status = 0;
-        $user->save();
+        //$user->delete();
 
         return redirect()->route('users.index')
             ->with('flash_message',
@@ -176,7 +176,11 @@ class UserController extends Controller {
     public function active($id) {
         //Find a user with a given id and delete
         $user = User::findOrFail($id);
-        $user->status = 1;
+        if( $user->status ) {
+            $user->status = 0;
+        } else {
+            $user->status = 1;
+        }
         $user->save();
 
         return redirect()->route('users.index')

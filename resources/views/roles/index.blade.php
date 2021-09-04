@@ -5,10 +5,7 @@
 @section('content')
 
 <div class="container mt-3">
-    <h1><i class="fa fa-key"></i> Roles
-
-    <a href="{{ route('users.index') }}" class="btn btn-outline-info pull-right mx-1">Users</a>
-    <a href="{{ route('permissions.index') }}" class="btn btn-outline-info pull-right mx-1">Permissions</a></h1>
+    <h1><i class="fa fa-key"></i> Roles</h1>
     <hr>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
