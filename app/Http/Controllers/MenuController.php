@@ -17,7 +17,11 @@ class MenuController extends Controller
     public function index()
     {
         $menus = new Menu();
-        $menus = $menus->orderBy('created_at')->get();
+        if(Auth::user()->hasRole('SuperAdmin')){
+            $menus = $menus->orderBy('created_at')->get();
+        } else {
+            $menus = $menus->where('business_id', Auth::user()->business_id)->orderBy('created_at')->get();
+        }
 
         return view('menus.index')->with('menus', $menus);
     }
@@ -58,7 +62,7 @@ class MenuController extends Controller
 
         $menu->save();
 
-        return redirect()->route('dashboard')
+        return redirect()->route('menus.index')
             ->with('flash_message',
             'New Menu correctly added!');
     }
@@ -71,7 +75,6 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -82,7 +85,13 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $menu = Menu::findOrFail($id);
+
+        if($menu->business_id != Auth::user()->business_id){
+            abort('401');
+        }
+
+        return view('menus.edit')->with('menu', $menu);
     }
 
     /**
@@ -94,7 +103,22 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'type' => 'required',
+            'expected_gp' => 'nullable|numeric',
+        ]);
+
+        $menu = Menu::find($id);
+        $menu->name = $request['name'];
+        $menu->type = $request['type'];
+        $menu->expected_gp = $request['expected_gp'];
+
+        $menu->save();
+
+        return redirect()->route('menus.index')
+            ->with('flash_message',
+            'Menu correctly udpated!');
     }
 
     /**
